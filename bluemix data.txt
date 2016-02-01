@@ -1,0 +1,68 @@
+overview
+https://www.valueresearchonline.com/stocks/StockSelector/StockSelectResult.asp?funcName=snapshot&index=&cap=&sec=&indus=&firstchar=A&myport=&fType=csv
+
+
+essential checks 
+https://www.valueresearchonline.com/stocks/StockSelector/StockSelectResult.asp?funcName=essential_checks&index=&cap=&sec=&indus=&firstchar=C&myport=&fType=csv
+
+returns
+https://www.valueresearchonline.com/stocks/StockSelector/StockSelectResult.asp?funcName=returns&index=&cap=&sec=&indus=&firstchar=C&myport=&fType=csv
+
+Financial Health
+https://www.valueresearchonline.com/stocks/StockSelector/StockSelectResult.asp?funcName=financial_health&index=&cap=&sec=&indus=&firstchar=C&myport=&fType=csv
+
+growth
+https://www.valueresearchonline.com/stocks/StockSelector/StockSelectResult.asp?funcName=growth&index=&cap=&sec=&indus=&firstchar=C&myport=&fType=csv
+
+
+Company	
+Sector	
+Industry
+Price	
+PriceDate
+1-Day Chg. (%)	
+52-Week High	
+52-Week Low	
+P/E
+P/B	
+Enterprise Value (Cr)	
+Market Cap (Cr)
+Altman Z-score	
+Piotroski F-score	
+Modified C-score	
+Current PE	
+Median PE	
+Current PB	
+Median PB	
+Earning Yield (%)	
+PEG	Median Duration
+1-Day Return	
+1-Week Return	
+1-Month Return	
+3-Month Return	
+1-Year Return	
+3-Year Return	
+5-Year Return	
+10-Year Return
+ROE (%)	
+Operating Margin (%)	
+Free Cash Flow (Cr)	
+Debt Equity Ratio	
+Long-term Debt (Cr)	
+Networth (Cr)
+1-Year Revenue Growth	
+1-Year EPS Growth	
+1-Year Book Value Growth	
+3-Year Revenue Griowth	
+3-Year EPS Growth	
+3 Year Book Value Growth	
+5 Year Revenue Growth	
+5-Year EPS Growth	
+5 Year Book Value Growth
+Price / Sales	
+Price / Cash Flow
+
+
+
+
+
