@@ -1,5 +1,22 @@
 import json
 
+
+#columns we can include
+            # "1-Year Return (%)": "-15.25",
+            # "Alpha": "6.62",
+            # "Beta": "1.05",
+            # "Expense Ratio (%)": "2.61",
+            # "Fund Risk Grade": "5",
+            # "Launch": "Feb 24, 2004",
+            # "Market Cap": "42956.99",
+            # "Net Assets (Cr)": "536.08",
+            # "R-Squared": "0.87",
+            # "Rating": "3",
+            # "Sharpe Ratio": "0.71",
+            # "Sortino Ratio": "1.37",
+            # "Standard Deviation": "15.26",
+            # "Turnover": "35"
+
 def get_values(data):
 
     values = []
