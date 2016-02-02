@@ -1,5 +1,9 @@
 import json
 
+# dumps data from  valueresearchonline into a compatible format frr tradeoff analysis
+# creates tradeoff.json in the current directory
+
+
 
 #columns we can include
             # "1-Year Return (%)": "-15.25",
@@ -35,7 +39,9 @@ def get_values(data):
     #     json.dump(values,f,sort_keys=True,indent=4, separators=(',', ': '))
 
 def normalize_data(data):
+    #the dirtiest method in the code.
     for item in data:
+        #convert rating to
         item['Rating'] = item['Rating'].count('*')
         if item['Fund Risk Grade'] == 'High':
             item['Fund Risk Grade'] = 5
@@ -49,14 +55,71 @@ def normalize_data(data):
             item['Fund Risk Grade'] = 1
         else:
             item['Fund Risk Grade'] = 3
+
+
+        item['Rating'] = int(item['Rating'])
+
+        # convert string values to floats
+        columns = ['1-Year Return (%)','Alpha','Beta','Expense Ratio (%)',
+                   'Fund Risk Grade','Market Cap','Net Assets (Cr)',
+                   'R-Squared','Sharpe Ratio','Sortino Ratio','Standard Deviation','Turnover']
+
+        for column in columns:
+            try:
+                item[column] = float(item[column])
+            except Exception as e:
+                print '%s is invalid in %s' %(column, item['Fund'])
+                item[column] = 0.0
+
     return data
 
-def get_columns():
-    pass
+def get_columns(objectives):
+    # i have no idea what i am doing.
+    fields = ['1-Year Return (%)','Alpha','Beta','Expense Ratio (%)',
+                   'Fund Risk Grade','Market Cap','Net Assets (Cr)',
+                   'R-Squared','Sharpe Ratio','Sortino Ratio','Standard Deviation','Turnover']
+    # these fields will be maximized, rest all minimized
+    max_fields = ['1-Year Return (%)','Alpha','Market Cap',
+                 'Net Assets (Cr)','Sharpe Ratio','Sortino Ratio','Turnover']
 
-with open('funds.json') as f:
-    data = json.load(f)
+    # min_fields = ['Beta','Expense Ratio (%)','Fund Risk Grade','R-Squared','Standard Deviation',]
+
+    columns = []
+
+    for field in fields:
+        column = {}
+        column["type"] = 'numeric'
+        column["key"] = field
+        if field in max_fields:
+            column["goal"] = 'max'
+        else:
+            column["goal"] = 'min'
+        column["full_name"] = field
+        if field in objectives:
+            column["is_objective"] = True
+        columns.append(column)
+
+    return columns
+
+# with open('funds.json') as f:
+#     data = json.load(f)
+
+import mf_data as crawler
+
+data = crawler.crawl_data()
 
 data = normalize_data(data)
 values = get_values(data=data)
-print json.dumps(values,sort_keys=True,indent=4, separators=(',', ': '))
+columns = get_columns(objectives=['Fund Risk Grade','Market Cap','Net Assets (Cr)','Sortino Ratio'])
+
+alldata = {}
+alldata['subject'] = "mutual funds"
+alldata['columns'] = columns
+alldata['options'] = values
+
+# problem = {}
+# problem["problem"] = alldata
+
+
+with open('tradeoff.json','w') as f:
+    json.dump(alldata,f,sort_keys=True,indent=4, separators=(',', ': '))

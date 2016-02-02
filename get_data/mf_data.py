@@ -1,7 +1,12 @@
+# crawls valueresearchonline for mutual fund data
+
+
 import requests
 import string
 import csv
 import json
+
+
 
 Login_URL = 'https://www.valueresearchonline.com/registration/loginprocess.asp'
 proxy = {"http": "http://bproxy.ibmsbsds1.com:3128","https": "http://bproxy.ibmsbsds1.com:3128",}
@@ -15,30 +20,31 @@ creds = {
     'password': 'Aq1sw2de'
     }
 
-with requests.Session() as s:
-    p = s.post(Login_URL, data=creds, proxies=proxy)
-    topicData = []
-    for topic in topics:
-        url = base_url + topic
-        r = s.get(url,proxies=proxy)
-        data = r.text.split('\r')[2:]
-        result = csv.DictReader(data)
-        topicData.append(list(result))
+#  crawls valueresearchonline for mutual fund data and returns a list of dictionaries
+def crawl_data():
+    with requests.Session() as s:
+        p = s.post(Login_URL, data=creds, proxies=proxy)
+        topicData = []
+        for topic in topics:
+            url = base_url + topic
+            r = s.get(url,proxies=proxy)
+            data = r.text.split('\r')[2:]
+            result = csv.DictReader(data)
+            topicData.append(list(result))
 
-    for company in topicData[0]:
-        print company
-        for i in range(1,5):
-            print i
-            for row in topicData[i]:
-                if i == 4:
-                    if company['Fund'] == row['Scheme']:
-                        company.update(row)
-                else:
-                    if company['Fund'] == row['Fund']:
-                        company.update(row)
+        for company in topicData[0]:
+            #print company
+            for i in range(1,5):
+                #print i
+                for row in topicData[i]:
+                    if i == 4:
+                        if company['Fund'] == row['Scheme']:
+                            company.update(row)
+                    else:
+                        if company['Fund'] == row['Fund']:
+                            company.update(row)
 
 
-
-
-    with open('funds.json','w') as f:
-        json.dump(topicData[0],f)
+        # with open('funds.json','w') as f:
+        #     json.dump(topicData[0],f)
+        return topicData[0]
