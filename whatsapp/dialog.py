@@ -1,4 +1,4 @@
-#main dialog here
+# main dialog here
 
 import sqlite3
 import datetime
@@ -43,7 +43,7 @@ def converse(phone,message):
         client_id = ""
         convo_time=datetime.datetime.utcfromtimestamp(0)
 
-    #check if the convo has expired.
+    # check if the convo has expired.
     # consversations expire if last msg time is more than 15 min
     elapsed = datetime.datetime.now() - convo_time
     if elapsed > datetime.timedelta(minutes=15):
@@ -56,15 +56,15 @@ def converse(phone,message):
 
     # insert newly returned data in the db
     query = '''INSERT OR REPLACE INTO USERS (phone, client_id, conversation_id,convo_time) VALUES ('%s', '%s', '%s','%s');'''%(phone,new_client_id,new_conversation_id, datetime.datetime.now())
-    #query = '''INSERT OR REPLACE INTO USERS (phone, client_id, conversation_id,convo_time) VALUES (, '%s', '%s','%s');'''%(phone,new_client_id,new_conversation_id, datetime.datetime.now())
     print query
     print cursor.execute(query)
+
 
     conn.commit()
     conn.close()
 
 
-    return response
+    return response,new_client_id
 
 
 

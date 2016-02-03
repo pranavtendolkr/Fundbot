@@ -7,9 +7,10 @@ from yowsup.layers.protocol_receipts.protocolentities  import OutgoingReceiptPro
 from yowsup.layers.protocol_acks.protocolentities      import OutgoingAckProtocolEntity
 
 import subprocess as sub
-import cleverbot
+import tradeoff
+import dialog
 
-cb1 = cleverbot.Cleverbot()
+
 
 
 
@@ -17,14 +18,23 @@ class EchoLayer(YowInterfaceLayer):
 
     @ProtocolEntityCallback("message")
     def onMessage(self, messageProtocolEntity):
-        #send receipt otherwise we keep receiving the same message over and over
+        # send receipt otherwise we keep receiving the same message over and over
 
         if True:
             receipt = OutgoingReceiptProtocolEntity(messageProtocolEntity.getId(), messageProtocolEntity.getFrom(), 'read', messageProtocolEntity.getParticipant())
             message=messageProtocolEntity.getBody()
             print message + "\n"
 
-            output=cb1.ask(message)
+            output,client_id=dialog.converse(message)
+
+            if output is "Okay, thank you for using the service!":
+                profile = dialog.get_profile(client_id)
+                response,profile_has_graph = tradeoff.call_tradeoff_api(profile)
+                if(profile_has_graph is True):
+                    graph = draw_graph(response)
+                    top5 = send_graph(graph)
+                send_top_performers(top5)
+
             print output
             #output=message
             outgoingMessageProtocolEntity = TextMessageProtocolEntity(
@@ -38,4 +48,3 @@ class EchoLayer(YowInterfaceLayer):
     def onReceipt(self, entity):
         ack = OutgoingAckProtocolEntity(entity.getId(), "receipt", entity.getType(), entity.getFrom())
         self.toLower(ack)
-
