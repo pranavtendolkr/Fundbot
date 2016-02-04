@@ -9,10 +9,7 @@ from yowsup.layers.protocol_acks.protocolentities      import OutgoingAckProtoco
 import subprocess as sub
 import tradeoff
 import dialog
-
-
-
-
+import grapher
 
 class EchoLayer(YowInterfaceLayer):
 
@@ -25,20 +22,22 @@ class EchoLayer(YowInterfaceLayer):
             message=messageProtocolEntity.getBody()
             print message + "\n"
 
-            output,client_id=dialog.converse(message)
+            output,client_id = dialog.converse(message)
 
-            if output is "Okay, thank you for using the service!":
+            if output == "Okay, thank you for using the service!":
                 profile = dialog.get_profile(client_id)
                 response,profile_has_graph = tradeoff.call_tradeoff_api(profile)
                 if(profile_has_graph is True):
-                    graph = draw_graph(response)
-                    top5 = send_graph(graph)
-                send_top_performers(top5)
+                    link = grapher.PlotGraph(str(response))
+                top5 = grapher.top_five(response)
+                output = "The top mutual funds we selected for you are:\n"
+                for i,item in enumerate(top5):
+                    output = output + '%i,%s\n'%(i,item)
+                output = output + "\n and here is the graph you requested \n %s"%(link)
 
             print output
             #output=message
-            outgoingMessageProtocolEntity = TextMessageProtocolEntity(
-                output,
+            outgoingMessageProtocolEntity = TextMessageProtocolEntity(output,
                 to = messageProtocolEntity.getFrom())
 
             self.toLower(receipt)

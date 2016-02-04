@@ -47,59 +47,54 @@ def call_tradeoff_api(profile):
 
 
 
-
-
-
-
-
-profile = {
-  "name_values": [
-    {
-      "name": "param1",
-      "value": "Alpha"
-    },
-    {
-      "name": "param2",
-      "value": "Beta"
-    },
-    {
-      "name": "param3",
-      "value": "Standard Deviation"
-    },
-    {
-      "name": "param4",
-      "value": ""
-    },
-    {
-      "name": "param5",
-      "value": ""
-    },
-    {
-      "name": "param6",
-      "value": ""
-    },
-    {
-      "name": "param7",
-      "value": ""
-    },
-    {
-      "name": "param8",
-      "value": ""
-    },
-    {
-      "name": "param9",
-      "value": ""
-    },
-    {
-      "name": "param10",
-      "value": ""
-    },
-    {
-      "name": "graph",
-      "value": "graph"
-    }
-  ]
-}
-
-
-call_tradeoff_api(profile)
+# profile = {
+#   "name_values": [
+#     {
+#       "name": "param1",
+#       "value": "Alpha"
+#     },
+#     {
+#       "name": "param2",
+#       "value": "Beta"
+#     },
+#     {
+#       "name": "param3",
+#       "value": "Standard Deviation"
+#     },
+#     {
+#       "name": "param4",
+#       "value": ""
+#     },
+#     {
+#       "name": "param5",
+#       "value": ""
+#     },
+#     {
+#       "name": "param6",
+#       "value": ""
+#     },
+#     {
+#       "name": "param7",
+#       "value": ""
+#     },
+#     {
+#       "name": "param8",
+#       "value": ""
+#     },
+#     {
+#       "name": "param9",
+#       "value": ""
+#     },
+#     {
+#       "name": "param10",
+#       "value": ""
+#     },
+#     {
+#       "name": "graph",
+#       "value": "graph"
+#     }
+#   ]
+# }
+#
+#
+# call_tradeoff_api(profile)
