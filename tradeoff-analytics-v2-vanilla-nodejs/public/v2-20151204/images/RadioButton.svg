@@ -1,0 +1,4 @@
+<svg viewBox="0 0 18 18">
+	<circle class="radio-outline" cx="9" cy="9" r="8"/>
+	<circle class="radio-center" cx="9" cy="9" r="4.1"/>
+</svg>

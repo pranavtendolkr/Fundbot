@@ -1,0 +1,153 @@
+<div class="map">
+  <svg  ta-vbox="{{bbox()}}" width="100%" height="100%" ng-class="{comparing:model.getCompareOp()}">
+    
+    <g  class="root "
+        ng-class="objectivesClasses" >
+        <polyline 
+           ng-attr-points="{{::framePolyline()}}" 
+           class="frame"
+           ng-click="model.select()"></polyline>
+           
+      <g 
+         class="corner"
+         ng-repeat="anc in map.getAnchors()" 
+         ng-class="'objective'+anchorObjectiveIndex(anc)"
+         ng-attr-transform="translate({{::x(anc.getX())}}, {{::y(anc.getY())}})" >
+        <g class="anchor" 
+           ng-attr-transform= "translate({{::anchorRectPosition(anc).x -ANCHOR_WIDTH / 2}}, {{::anchorRectPosition(anc).y-ANCHOR_WIDTH / 2}})">
+           <g class="btn">
+            <rect 
+              ng-click="anchorClicked(anc)"
+              ng-attr-height="{{::ANCHOR_WIDTH}}"
+              ng-attr-width="{{::ANCHOR_WIDTH}}">
+            </rect>
+            <path ng-attr-d="M{{::ANCHOR_WIDTH/2}},{{::3 * ANCHOR_WIDTH/4 }} v-{{::ANCHOR_WIDTH/2}}"/>
+          </g>
+        </g>
+        <ta-column-info
+            column="anchorObjective(anc)" 
+            model="model" 
+            view="view" 
+            height="INFO_HEIGHT" 
+            allow-navigation="true"
+            width="INFO_WIDTH"
+            connector-position="{{::anchorInfoConnectorPosition(anc)}}"
+            class="{{::'column'+anchorObjectiveIndex(anc)}} "
+            ng-attr-transform= "{{::anchorInfoTransform(anc)}}"
+            />
+        <title>{{::anchorObjective(anc).getFullName()}}</title>
+      </g>
+      
+      <g  class="nodes" 
+          ng-attr-transform="translate({{::-scale/2}}, {{::-scale/2}})">
+        <g  class="node"
+            ta-map-node
+            ng-repeat="node in map.getNodes()"
+            ng-attr-transform="translate({{::x(node.getX())}},{{::y(node.getY())}})" >
+          
+          <!-- MULTIPLE OPS IN NODE -->
+          <g  ng-if="node.getOptions().length>1" 
+              class="multiplicity">
+            <g  class="option artificial"
+                ng-mouseenter="hover(node.getOptions())" 
+                ng-mouseleave="hover()"  
+                ng-repeat="op in [node.averageOption(view)]"
+                ng-class="{
+                    filteredOut: !someOptionsAreIn(node),
+                    selected: someOptionIsSelected(node),
+                    candidate: someOptionIsCandidate(node),
+                    compared: comparingSomeOption(node),
+                    hovered: someOptionIsHovered(node)
+                  }">
+              <circle 
+                class="marker"
+                ng-attr-cx="{{::scale/2}}" 
+                ng-attr-cy="{{::scale/2}}" 
+                ng-attr-r="{{::scale/2}}"
+                transform =  "translate(1.2, -0.4)" 
+                class="outline primary">
+              </circle>
+              <circle 
+                class="marker "
+                ng-attr-cx="{{::scale/2}}" 
+                ng-attr-cy="{{::scale/2}}"
+                transform =  "translate(0.6, -0.2)"
+                ng-attr-r="{{::scale/2}}" 
+                class="outline primary">
+              </circle>
+              <ta-map-slice-glyph  node="node" view="view" scale="scale" map="map" op="op"
+                  class="glyph" >
+              </ta-map-slice-glyph>
+              
+              <ta-background-box class="small label">
+                <ta-svg-text-box 
+                  ng-attr-transform="translate({{::.75*scale}})" 
+                  max-char-length="20" 
+                  wrap="true"
+                  text="{{labeledOption(node).getName()}}">
+                </ta-svg-text-box>
+             </ta-background-box>
+            </g>
+            <g  class="option" 
+                ng-attr-transform="translate({{::scale}}, -{{::scale*0.7 + $index*(scale+3)}})"
+                ng-repeat="op in node.getOptions()"
+                ng-class="{
+                    hovered: model.isHovered(op), 
+                    filteredOut: !view.isOptionIn(op),
+                    selected: model.isSelected(op),
+                    candidate: model.isCandidate(op),
+                    compared : model.isCompareOp(op)
+                  }"
+                ng-mouseenter="hover(op)" 
+                ng-mouseleave="hover()" 
+                ng-click="clicked(op, $event)">
+                
+              <ta-background-box class="label" margin="{right:2, left:2, top:1.5, bottom:1.5}">
+                <ta-map-slice-glyph  node="node" view="view" scale="scale" map="map" op="op"
+                    class="glyph" >
+                </ta-map-slice-glyph>
+                <ta-svg-text-box 
+                  ng-attr-transform="translate({{::scale+1}}, 2)" 
+                  max-char-length="20" 
+                  wrap="true"
+                  text="{{::op.getName()}}" />
+              </ta-background-box>
+            </g>
+          </g>
+          
+          <!-- SINGLE OP IN NODE -->
+          <g  class="option simple"
+              ng-if="node.getOptions().length==1" 
+              ng-repeat="op in node.getOptions()"
+              ng-class="{
+                  hovered: model.isHovered(op), 
+                  filteredOut: !view.isOptionIn(op),
+                  selected: model.isSelected(op),
+                  candidate: model.isCandidate(op),
+                  compared : model.isCompareOp(op)
+                }"
+              ng-mouseenter="hover(op)" 
+              ng-mouseleave="hover()" 
+              ng-click="clicked(op, $event)">
+            <ta-map-slice-glyph node="node" view="view" scale="scale" map="map" op="op"
+                class="glyph">
+            </ta-map-slice-glyph>
+            <ta-background-box class="label">
+              <ta-svg-text-box 
+                ng-attr-transform="translate({{::.75*scale}})" 
+                max-char-length="20" 
+                wrap="true"
+                text="{{::op.getName()}}">
+              </ta-svg-text-box>
+            </ta-background-box>
+            <ta-close-me ng-click="stopComparing(op, $event)" 
+                ng-attr-transform="translate(0,{{::.5*scale}})"
+                title="Click to stop comparing" 
+                width="6" 
+                height="6"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </svg>  
+</div>

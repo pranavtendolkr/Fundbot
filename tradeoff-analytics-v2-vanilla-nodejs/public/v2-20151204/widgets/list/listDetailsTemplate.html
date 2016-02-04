@@ -1,0 +1,25 @@
+<div class="opDetails">
+  <div class="opDesc" ng-bind-html="opDescriptionHtml" ></div>
+
+  <ta-options-details model="model" view="view" op="op" compare="model.getCompareOp()" details="false" allow-comparing="true"></ta-options-details>
+
+  <div class="buttons">
+    <button ng-click="addToSelect(op);" class="button"
+      ng-show="allowSelect && !model.isCandidate(op)">
+      SELECT
+    </button>
+    <button ng-click="removeFromSelect(op);" class="button removeBtn"
+      ng-show="allowSelect && model.isCandidate(op)">
+      REMOVE
+    </button>
+      
+    <button ng-click="setAsFinal(op);" class="button"
+      ng-show="allowFinal && !model.isFinalDecision(op)">
+      FINAL
+    </button>
+    <button ng-click="setAsFinal();" class="button removeBtn"
+      ng-show="allowFinal && model.isFinalDecision(op)">
+      REMOVE
+    </button>
+  </div>
+</div>

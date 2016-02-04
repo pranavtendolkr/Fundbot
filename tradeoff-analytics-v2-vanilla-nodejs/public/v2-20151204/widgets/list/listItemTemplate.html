@@ -1,0 +1,17 @@
+<li 
+    class="selectable-op" 
+  	ng-class="{
+  		 hovered:model.isHovered(op),
+  		 selected:model.isSelected(op),
+  		 candidate:model.isCandidate(op),
+       final: model.isFinalDecision(op)
+  	 }"
+  	ng-mouseenter="model.hover(op)" 
+  	ng-mouseleave="model.hover()" >
+	<div class="opName noselect" ng-click="clicked()" id="listItem-{{op.getId()}}" truncate>{{::op.getName()}}</div> 
+	
+	<ta-op-details	ng-show="model.isSelected(op)" >
+	</ta-op-details>
+  
+    
+</li>

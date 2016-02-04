@@ -1,0 +1,115 @@
+<div class="pc" 
+    ng-class="{comparing:model.getCompareOp()}">
+  <svg  ta-vbox="{{bbox()}}" width="100%" height="100%" >
+    <g class="root">
+      <g class="axes">
+        <g 
+            ng-repeat="col in view.getObjectives()" 
+            ng-class="'axis column'+col.getIndex()" 
+            ng-attr-transform="translate({{::axisX(col)}}, 0)">
+          <line 
+            ng-attr-y1="{{::lineTop()}}"
+            ng-attr-y2="{{::lineBottom()}}" 
+            class="area"></line>
+          <line 
+            ng-attr-y1="{{::lineTop()}}"
+            ng-attr-y2="{{::lineBottom()}}" 
+            class="line"></line>
+          
+          <g class="edge min" ng-attr-transform="translate(0, {{::axisY(col.getMin(), col)}})">
+            <line x1="-1" x2="1" class="tick"/>
+            <g transform="translate(4)">
+              <text class="value">
+                {{::col.getMin() | taColumnValue:col}}
+              </text>
+              <text class="desc"  y="1.3em">
+                Lowest
+              </text>
+            </g>
+          </g>
+          
+          <g class="edge max" ng-attr-transform="translate(0, {{::axisY(col.getMax(), col) }})">
+            <line x1="-1" x2="1" class="tick"/>
+            <g transform="translate(4)">
+              <text class="value">
+                {{::col.getMax() | taColumnValue:col}}
+              </text>
+              <text class="desc" y="1.3em">
+                Highest
+              </text>
+            </g>
+          </g>
+          
+          <line 
+             ng-attr-y1="{{::lineBottom()}}" 
+             ng-attr-y2="{{::lineBottom()+ baseSize}}" 
+             class="bottom base"></line>
+          <ta-column-info 
+            class="column{{::col.getIndex()}}"
+            connector-position="TopMiddle"
+            model="model" 
+            view="view"
+            column = "col"
+            height="infoHeight" 
+            width="infoWidth"
+            allow-navigation="false"
+            ng-attr-transform="translate({{::-infoWidth/2}}, {{::lineBottom() + baseSize +2}})"/>
+          <title>{{::col.getFullName()}}</title>
+        </g>
+      </g>
+      <g class="runs">
+        <g ng-repeat="op in view.getOptions()" 
+           ng-mouseenter="hoverIn(op)" 
+           ng-mouseleave="hoverOut()"
+           ng-click="runClicked(op, $event)"
+           class="run"
+           ng-class="{
+             hovered:model.isHovered(op), 
+             filteredOut:!view.isOptionIn(op),
+             selected: model.isSelected(op),
+             final: model.isFinalDecision(op),
+             compared: model.isCompareOp(op)
+           }">
+          <title>{{::op.getName()}}</title>
+          <path 
+             class="primary" 
+             ng-attr-d="M{{::runPoints(op).join('L')}}">
+           </path>
+           <g class="markers">
+            <path
+                ng-repeat="p in runPoints(op)" 
+                class="marker"
+                ng-attr-transform="translate({{::p}})"
+                ng-attr-d="{{::getMarker(op)}}"/>
+           </g>
+           <ta-close-me ng-click="stopComparing(op, $event)" 
+              ng-attr-transform="translate({{::axisX(view.getObjectives()[0])}}, {{::axisOpY(op, view.getObjectives()[0])}})"
+              title="Click to stop comparing" 
+              width="6" 
+              height="6"/>
+        </g>
+      </g>
+      <g class="hint">
+        <line 
+          x1="3" x2="3"
+          ng-attr-y1="{{::lineTop()+6}}"  
+          ng-attr-y2="{{::lineBottom()-6}}"/>
+        <path class="arrowHead" ng-attr-d="M2,{{::lineTop()+6+1}} l1,-1 l1,1"/>
+        <text ng-attr-y="{{::lineTop()+1}}">
+          <tspan>Better</tspan>
+          <tspan x="0" dy="1.25em">Values</tspan>
+        </text>
+        
+        <path class="arrowHead" ng-attr-d="M2,{{::lineBottom()-6-1}} l1,1 l1,-1"/>
+        <text ng-attr-y="{{::lineBottom()-3}}">
+          <tspan>Lesser</tspan>
+          <tspan x="0" dy="1.25em">Values</tspan>
+        </text>
+      </g>
+      
+      <ta-pc-compare></ta-pc-compare>
+      
+    </g>
+    
+  </svg>
+</div>

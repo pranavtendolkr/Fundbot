@@ -1,0 +1,16 @@
+
+<div class="list-area" >
+  <ul class="list">
+    <li 
+      class="sortHeader" 
+      ng-click="reverse=!reverse"
+      ng-class="{
+        reverse: reverse
+      }"><span class=sortTitle>{{view.getOptionsIn().length}} Best Candidates out of {{::model.getFullView().getOptions().length}}</span>
+    </li>
+    
+    <ta-list-item 
+      ng-repeat="op in view.getOptionsIn() | orderBy:predicate:reverse"></ta-list-item>
+  </ul>
+
+</div>

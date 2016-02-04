@@ -1,0 +1,17 @@
+<div class="summary-page">
+
+	<div class="title1">Finalize Decision</div>
+  <div class="congrats">
+    Congratulations! You've made a great decision.
+  </div>
+  
+  <div class="option-box">
+  	<div class="op-name">{{model.getFinalDecision().getName()}}</div>
+    <div class="details">
+      <div class="desc" ng-bind-html="opDescriptionHtml"></div>
+      <ta-options-details model="model" view="model.getFinalView()" op="model.getFinalDecision()" details="false"></ta-options-details>
+    </div>
+  	
+  </div>
+
+</div>

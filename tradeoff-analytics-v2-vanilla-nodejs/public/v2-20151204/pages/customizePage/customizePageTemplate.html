@@ -1,0 +1,71 @@
+<div class="customizeObjectives">
+
+  <h1 class="topTitle">Customize fund criteria</h1>
+  <h2 class="topTitle2">By choosing a goal or setting a preferred order for your criteria,
+    Funds for all will extract the best funds based on your settings.</h2>
+
+  <div class="container">
+    <div class="columns" ng-click='highlightedIndex=null'>
+      <div class="column column_{{col.getIndex()}} noselect active"
+           ng-class='model.getCustomizePage().isExpanded(col.getKey()) ? "expanded-column" : ""'
+          ng-repeat="col in model.getScenario().getObjectives()"'>
+        <div class='textContainer'>
+         <div class="name">
+             {{::col.getFullName() | uppercase}}
+         </div>
+          <div class="description">
+            {{::col.getDescription()}}
+          </div>
+          <div class="enum"
+              ng-if='col.getType()==="ENUM"'
+              ng-class='model.getCustomizePage().isExpanded(col.getKey()) ? "" : "collapsed-enum"'>
+            <div class="instructions">
+              <span>Set preferred order:</span>
+              <span ng-if="col.getPreference().length> 3" class="edit-all"
+              	  ng-class="model.getCustomizePage().isExpanded(col.getKey()) ? 'disabled' : ''"
+                  ng-click="model.getCustomizePage().setExpanded(col.getKey(),true); $event.stopPropagation()">
+                <span ng-include="'images/editIcon.svg'" class="edit-all-icon"></span>
+                <a class="edit-all-text">Edit all</a>
+              </span>
+            </div>
+            <ul ng-sortable="getDragOptions(col)">
+              <li class="preference-literal" ng-repeat="literal in col.getPreference()"
+                  ng-class="highlightedIndex==$index && highlightedColumn==col ? 'highlighted' : ''">{{literal}}
+                <span class="reorder-buttons">
+                  <span ng-include="'/v2/images/customize_down_arrow.svg'"
+                      class="reorder-button"
+                      ng-if="$index != col.getPreference().length -1"
+                      ng-click="swapArrayElements(col,$index,$index+1); $event.stopPropagation()"></span>
+                  <span ng-include="'/v2/images/customize_up_arrow.svg'"
+                      class="reorder-button"
+                      ng-if="$index != 0"
+                      ng-click="swapArrayElements(col,$index,$index-1); $event.stopPropagation()"></span>
+                </span>
+              </li>
+            </ul>
+          </div>
+          <ta-more-arrow
+              ng-if='col.getType()==="ENUM" && col.getPreference().length>3'
+              expanded='model.getCustomizePage().columnsExpansionState[col.getKey()]'
+              title = "{{model.getCustomizePage().columnsExpansionState[col.getKey()] && 'Collapse' || 'Expand'}}"
+              ng-click='$event.stopPropagation()'>
+          </ta-more-arrow>
+
+          <div ng-if='col.getType()!=="ENUM"'>
+            <div>Set goal:</div>
+            <label class='goal'>
+              <input type="radio" ng-model="col.goal" ng-model-options="{getterSetter: true}" value="MIN">
+              <ng-include class="goal-radio" src="'images/RadioButton.svg'"></ng-include>Minimize
+            </label>
+            <label class='goal'>
+              <input type="radio" ng-model="col.goal" ng-model-options="{getterSetter: true}" value="MAX">
+							<ng-include class="goal-radio" src="'images/RadioButton.svg'"></ng-include>Maximize
+            </label>
+          </div>
+       </div>
+    </div>
+  </div>
+
+  <ta-objectives-side-pane></ta-objectives-side-pane>
+</div>
+</div>

@@ -1,0 +1,13 @@
+<div class='rangeFilter'>
+	<div ui-slider="sliderOptions" min="{{filter.getOriginalValue().low}}" max="{{getMax()}}" ng-model="sliderRange" use-decimals="false" step="{{step}}"></div>
+	
+	<div class="range">
+		<span ng-hide='editingMinValue' ng-click="editingMinValue=true" class="rangeFilterValue minFilterValue" ng-class="getMinErrorClass()">{{sliderRange[0] | taColumnValue:filter.getColumn()}} </span>
+		<input ng-show='editingMinValue' ng-blur="blurMin()" ta-focus-me="editingMinValue" 
+			class="rangeFilterValue minFilterValue" ng-model="inputMin" ng-change="inputMinChanged()" ng-class="getMinErrorClass()" />
+		 
+		<span ng-hide='editingMaxValue' ng-click="editingMaxValue=true" class="rangeFilterValue maxFilterValue">{{sliderRange[1] | taColumnValue : filter.getColumn()}}</span>
+		<input ng-show='editingMaxValue' ng-blur="blurMax()" ta-focus-me="editingMaxValue" 
+			class="rangeFilterValue maxFilterValue" ng-model="inputMax" ng-change="inputMaxChanged()" ng-class="getMaxErrorClass()" />
+	</div>
+</div>

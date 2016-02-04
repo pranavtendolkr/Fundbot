@@ -1,0 +1,12 @@
+<div class='enum-list'>
+	<div ng-repeat='literal in filter.getAllEntries()'>
+		<div class="enum-literal">
+			<span ng-click="toggle(literal)">
+				<span class='enum-literal-checkbox'>
+					<span class="checkbox-internal" ng-class="{checked : checkboxModel[literal]}"></span>
+				</span>
+				<span truncate class='enum-literal-text'>{{::literal}}</span> 
+			</span>
+		</div>
+	</div>
+</div>

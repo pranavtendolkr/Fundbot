@@ -1,0 +1,34 @@
+{
+  "name": "TradeoffAnalyticsV2NodejsVanillaStarterApp",
+  "version": "0.1.3",
+  "description": "A sample nodejs app for Bluemix that use the Tradeoff Analytics service",
+  "dependencies": {
+    "express": "~4.12.0",
+    "http-proxy-middleware": "^0.9.0"
+  },
+  "engines": {
+    "node": "0.10.38"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/watson-developer-cloud/tradeoff-analytics-nodejs.git"
+  },
+  "author": "IBM Corp.",
+  "contributors": [
+    {
+      "name": "Dolev Dotan",
+      "email": "dotan@il.ibm.com"
+    },
+    {
+      "name": "German Attanasio Ruiz",
+      "email": "germanatt@us.ibm.com"
+    }
+  ],
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/watson-developer-cloud/tradeoff-analytics-nodejs/issues"
+  },
+  "scripts": {
+    "start": "node app.js"
+  }
+}

@@ -1,0 +1,33 @@
+<div class="filters-pane" >
+	<div class='filters-header'>
+		<span class="filters-title">Refine by:</span>
+		<span class="filters-icon-tray">
+			<span ng-include="'images/collapse.svg'" title="Collapse" class="filters-title-icon" 
+				  ng-class="allCollapsed() ? 'disabled' : ''" ng-click="collapseAllFilters()"></span>
+			<span ng-include="'images/expand.svg'" title="Expand" class="filters-title-icon" 
+				  ng-class="allExpanded() ? 'disabled' : ''" ng-click="expandAllFilters()"></span>
+			<span ng-include="'images/reset.svg'" title="Reset all" class="filters-title-icon" 
+				  ng-class="allFiltersInactive() ? 'disabled' : ''"	ng-click="resetAllFilters()"></span>
+			<span ng-include="'images/editIcon.svg'" title="Add/Remove Criteria" class="filters-title-icon" 
+				  ng-click="editObjectives()"></span>
+		</span>
+	</div>
+     <div ng-repeat="f in filters">
+	     <div class="filter objective{{::f.getColumn().getIndex()}} {{::f.getColumn().getType() | lowercase}}FilterBox"
+	          ng-class="expansionState[$index] ? 'expanded': 'collapsed'">
+		 	<div class='filterName' truncate> 
+		 		{{::f.getColumn().getFullName() | uppercase}} 
+		 	</div>
+	     
+		     <div ng-switch="f.getColumn().getType()" ng-show="expansionState[$index]">
+		    	<ta-enum-filter ng-switch-when="ENUM" filter='f' view='view'></ta-enum-filter>
+		    	<ta-range-filter ng-switch-when="NUMERIC" filter='f' view='view'></ta-range-filter>
+		    	<ta-range-filter ng-switch-when="DATETIME" filter='f' view='view'></ta-range-filter>
+			</div>
+ 			<div ng-if='expansionState[$index]' class='more-arrow-spacer'>
+				<ta-more-arrow expanded='expansionState[$index]'></ta-more-arrow>
+ 			</div>
+			<ta-more-arrow ng-if='!expansionState[$index]' expanded='expansionState[$index]'></ta-more-arrow>
+		</div>
+     </div>    	    
+</div>

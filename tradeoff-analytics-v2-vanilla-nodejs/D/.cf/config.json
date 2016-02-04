@@ -1,0 +1,44 @@
+{
+  "ConfigVersion": 3,
+  "Target": "https://api.ng.bluemix.net",
+  "ApiVersion": "2.40.0",
+  "AuthorizationEndpoint": "https://login.ng.bluemix.net/UAALoginServerWAR",
+  "LoggregatorEndPoint": "wss://loggregator.ng.bluemix.net:443",
+  "DopplerEndPoint": "wss://doppler.ng.bluemix.net:443",
+  "UaaEndpoint": "https://uaa.ng.bluemix.net",
+  "RoutingApiEndpoint": "https://api.ng.bluemix.net/routing",
+  "AccessToken": "bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI2M2NhMGEzZi0xYTFlLTQzNjgtOWZjNy0xYmI4OTIwOTg4MTIiLCJzdWIiOiJkZGI3NzZiMi1jNTYxLTRlYzAtYmMxNC1iYWY1NjNmZjhjNjgiLCJzY29wZSI6WyJjbG91ZF9jb250cm9sbGVyLnJlYWQiLCJwYXNzd29yZC53cml0ZSIsImNsb3VkX2NvbnRyb2xsZXIud3JpdGUiLCJvcGVuaWQiXSwiY2xpZW50X2lkIjoiY2YiLCJjaWQiOiJjZiIsImF6cCI6ImNmIiwiZ3JhbnRfdHlwZSI6InBhc3N3b3JkIiwidXNlcl9pZCI6ImRkYjc3NmIyLWM1NjEtNGVjMC1iYzE0LWJhZjU2M2ZmOGM2OCIsIm9yaWdpbiI6InVhYSIsInVzZXJfbmFtZSI6Im1haGVzaHNhQHVzLmlibS5jb20iLCJlbWFpbCI6Im1haGVzaHNhQHVzLmlibS5jb20iLCJyZXZfc2lnIjoiOWYxYWRkM2UiLCJpYXQiOjE0NTQ1NjIwMTgsImV4cCI6MTQ1NDYwNTIxOCwiaXNzIjoiaHR0cHM6Ly91YWEubmcuYmx1ZW1peC5uZXQvb2F1dGgvdG9rZW4iLCJ6aWQiOiJ1YWEiLCJhdWQiOlsiY2xvdWRfY29udHJvbGxlciIsInBhc3N3b3JkIiwiY2YiLCJvcGVuaWQiXX0.ETRf7jBw-H8vpLiDc7-nvs8yrpgeHLGVbgbmPivJydg",
+  "SSHOAuthClient": "ssh-proxy",
+  "RefreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJlMDgwZWU0Ny00YjkzLTQ3YWItYWZmZS0xOGEzMzQxZWU3YjQtciIsInN1YiI6ImRkYjc3NmIyLWM1NjEtNGVjMC1iYzE0LWJhZjU2M2ZmOGM2OCIsInNjb3BlIjpbImNsb3VkX2NvbnRyb2xsZXIucmVhZCIsInBhc3N3b3JkLndyaXRlIiwiY2xvdWRfY29udHJvbGxlci53cml0ZSIsIm9wZW5pZCJdLCJpYXQiOjE0NTQzOTM4MTQsImV4cCI6MTQ1Njk4NTgxNCwiY2lkIjoiY2YiLCJjbGllbnRfaWQiOiJjZiIsImlzcyI6Imh0dHBzOi8vdWFhLm5nLmJsdWVtaXgubmV0L29hdXRoL3Rva2VuIiwiemlkIjoidWFhIiwiZ3JhbnRfdHlwZSI6InBhc3N3b3JkIiwidXNlcl9uYW1lIjoibWFoZXNoc2FAdXMuaWJtLmNvbSIsIm9yaWdpbiI6InVhYSIsInVzZXJfaWQiOiJkZGI3NzZiMi1jNTYxLTRlYzAtYmMxNC1iYWY1NjNmZjhjNjgiLCJyZXZfc2lnIjoiOWYxYWRkM2UiLCJhdWQiOlsiY2YiLCJjbG91ZF9jb250cm9sbGVyIiwicGFzc3dvcmQiLCJvcGVuaWQiXX0.3760_b8Xcex0DoNdMBAVPyElFHTan3QhZB-DIqWXzMg",
+  "OrganizationFields": {
+    "Guid": "a1500120-d4c5-4a24-ae5f-fd1648065c05",
+    "Name": "maheshsa@us.ibm.com",
+    "QuotaDefinition": {
+      "guid": "7f66aaf3-9e9b-49f4-83d9-40d92d318ff3",
+      "name": "q2GB",
+      "memory_limit": 2048,
+      "instance_memory_limit": 2048,
+      "total_routes": 500,
+      "total_services": 10,
+      "non_basic_services_allowed": true
+    }
+  },
+  "SpaceFields": {
+    "Guid": "5aae0da6-49ea-4cd8-8174-a211cf947e20",
+    "Name": "devs",
+    "AllowSSH": true
+  },
+  "SSLDisabled": false,
+  "AsyncTimeout": 0,
+  "Trace": "",
+  "ColorEnabled": "",
+  "Locale": "",
+  "PluginRepos": [
+    {
+      "Name": "CF-Community",
+      "Url": "http://plugins.cloudfoundry.org"
+    }
+  ],
+  "MinCliVersion": "",
+  "MinRecommendedCliVersion": ""
+}

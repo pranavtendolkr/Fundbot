@@ -1,0 +1,29 @@
+<div style="width:100%;text-align:center">
+
+<div class="objectives">
+
+  <h1 class="topTitle">Define Criteria</h1>
+  <h2 class="topTitle2">Choose between three and ten criteria that are the most important to you.</h2>
+
+  <div class="container">
+    <div class="columns">
+      <div class="column column_{{col.getIndex()}} noselect"
+          ng-repeat="col in model.getScenario().getColumns()"
+        	ng-click="toggleObjective(col)" 
+        	ng-class="{active:col.isObjective()}">
+          <div class='textContainer'>
+		      <div class="name">
+		          {{::col.getFullName() | uppercase}}
+		      </div>
+		      <div class="description">
+		          {{::col.getDescription()}}
+		      </div>
+          </div>
+       </div>
+    </div>
+    
+    <ta-objectives-side-pane></ta-objectives-side-pane>
+  </div>
+</div>
+
+</div>

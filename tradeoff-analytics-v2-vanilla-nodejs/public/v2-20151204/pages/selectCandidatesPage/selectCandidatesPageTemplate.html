@@ -1,0 +1,127 @@
+<!-- <div id="headerPlaceholder" ng-show="showHeader"></div> -->
+
+<div class="selectCandidates">
+
+  <div class="mainContainer" ng-class="{paneDown: !showSelectPane}">
+
+    <div class="filtersPane">
+      <ta-filters-pane view="model.getFrontView()"
+        expansion-state="model.getSelectCandidatesPage().getFiltersExpansionState()"
+        edit-objectives='moveToStep(objectivesStep)'
+        ng-show="showFilters && !model.getSelectCandidatesPage().showAllOps"> </ta-filters-pane>
+      <ta-filters-pane view="model.getFullView()"
+        expansion-state="model.getSelectCandidatesPage().getFiltersExpansionState()"
+        ng-show="showFilters && model.getSelectCandidatesPage().showAllOps"
+        edit-objectives='moveToStep(objectivesStep)'> </ta-filters-pane>
+    </div>
+    <div class="dataPane">
+
+      <div class="headerPane">
+        <h1 class="topTitle">Select Candidates</h1>
+        <div ng-click="model.getSelectCandidatesPage().showAllOps=false" class="topNav">
+          <table cellspacing=0 cellpadding=0>
+            <tr>
+              <td class="iconTop" align=center><a href=# class="navSelect"
+                ng-class="{'navSelect2': !model.getSelectCandidatesPage().showAllOps}"><span
+                ng-include="'images/map.svg'" class="topIcons"></span>&nbsp; Best Candidates ({{model.getFrontView().getOptionsIn().length}}/{{::model.getFrontView().getOptions().length}})</a>&nbsp;</td>
+            </tr>
+          </table>
+        </div>
+
+        <div ng-click="model.getSelectCandidatesPage().showAllOps=true" class="topNav">
+          <table cellspacing=0 cellpadding=0>
+            <tr>
+              <td class="iconTop" align=center><a href=# class="navSelect"
+                ng-class="{'navSelect2': model.getSelectCandidatesPage().showAllOps}"><span
+                ng-include="'images/table.svg'" class="topIcons"></span>&nbsp; All Candidates ({{model.getFullView().getOptionsIn().length}}/{{::model.getFullView().getOptions().length}})</a>&nbsp;</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="main-area" ng-if="!model.getSelectCandidatesPage().showAllOps">
+        <ta-map model="model" view="model.getFrontView()"
+          ng-if="model.getScenario().getMap()"></ta-map>
+        <ta-list model="model" view="model.getFrontView()"
+          allow-select="true"> </ta-list>
+      </div>
+
+      <div class="allOpsPane main-area" ng-show="model.getSelectCandidatesPage().showAllOps">
+        <div class="candidatesSection" >
+          <div class="top">
+            <div class="title">
+              <span>Best Candidates</span> 
+              <span>(</span> 
+              <span>{{topView.getOptionsIn().length}}</span>
+              <span>/</span>
+              <span>{{::topView.getOptions().length}}</span>
+              <span>)</span>
+            </div>
+            <div class="desc">These are candidates that have no
+              competitors in at least one criterion.
+            </div>
+          </div>
+          <ta-select-table model="model" view="topView" allow-select="true"></ta-select-table>
+        </div>
+
+        <div class="candidatesSection exc">
+          <div class="title">
+            <span>Sub Optimal Candidates</span> 
+            <span>(</span> 
+            <span>{{dominatedView.getOptionsIn().length}}</span>
+            <span>/</span> 
+            <span>{{::dominatedView.getOptions().length}}</span>
+            <span>)</span>
+          </div>
+          <div class="desc">These are candidates that are lesser in
+            value than the leading candidates.</div>
+          <ta-select-table model="model" view="dominatedView"
+            dominated="true" allow-select="true"></ta-select-table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="selectPane" ng-class="{paneDown: !showSelectPane}">
+    <div class="spacer">
+      <span class="selectArrows" 
+          ng-click="showSelectPane = !showSelectPane"></span>
+    </div>
+
+    <div class="candyBox">
+      <div class="title">YOUR SELECTED CANDIDATES</div>
+      <div class="emptyBox" ng-show="!model.haveCandidates()">
+        <span>Add your favorite candidates
+          to compare them in detail in the next step
+        </span>
+      </div>
+
+      <div class="candidatesPane" 
+          ng-show="model.haveCandidates()" 
+          ng-init="(_Array = []).length = model.maxCandidates;">
+        <span style="float:left;">
+          <ul 
+            ng-repeat="op in model.getCandidatesView().getOptions()"
+            class="selectlist op real" 
+            ng-mouseenter="model.hover(op)"
+            ng-mouseleave="model.hover()" 
+            ng-click="model.select(op)"
+            ng-class="{
+               hovered:model.isHovered(op),
+               selected:model.isSelected(op)
+              }">
+            <li>
+              <span truncate class="opName">{{::op.getName()}} </span> 
+              <span class="remove" ng-click="removeFromSelect(op)"> </span>
+            </li>
+          </ul>
+        </span>
+        <span >
+          <ul class="selectlist op empty" 
+            ng-repeat="i in _Array | limitTo: (model.maxCandidates-model.getCandidatesView().getOptions().length) track by $index">
+          </ul>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

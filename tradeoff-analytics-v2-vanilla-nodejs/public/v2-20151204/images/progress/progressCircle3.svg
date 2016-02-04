@@ -1,0 +1,6 @@
+<svg  viewBox="0 0 18.7 18.8" enable-background="new 0 0 18.7 18.8">
+  <g>
+    <circle  cx="10" cy="10" r="6" />
+    <text  x="10" y="4" dy="1em" fill="#000000" font-family="'ArialMT'" font-size="9px" text-anchor="middle">{{number}}</text>
+  </g>
+</svg>

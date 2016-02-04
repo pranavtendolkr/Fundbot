@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Tradeoff Analytics</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script type="text/javascript" src="jquery.min.js"></script>
+		<script type="text/javascript" src="/v2-20151204/TradeoffAnalytics.js"></script>
+
+		<!--script type="text/javascript" src="http://ta-cdn-v2.mybluemix.net/v2-20151204/TradeoffAnalytics.js"></script-->
+	</head>
+	<body style="height:100vh;margin:0;overflow:hidden;">
+	   <div id='ta' style="height:100%;"></div>
+
+	   <script type="text/javascript">
+	     // Create Tradeoff Analytics Client
+	     var taClient = new TA.TradeoffAnalytics({dilemmaServiceUrl: '/tradeoff-analytics-proxy/dilemmas'}, 'ta');
+
+	     // Start the client
+	     taClient.start(function(){
+	       //Upon success, load the problem json...
+		     $.getJSON('finance.json', function(data) {
+			     //and pass it to the client
+		    	 taClient.show(data,undefined,{
+		       	"dataset-name" : 'finance'
+		       });
+		     });
+
+		     //subscribe to events happening in the client
+    		 taClient.subscribe('afterError',  function(error) {
+    			 console.log('TA Widget Sent Error: ' + error.errorMessage);
+    		 });
+
+    		 taClient.subscribe('doneClicked', function(event) {
+    			 console.log('final decision key is ' + event.selectedOptionKeys[0]);
+    		 });
+	   });
+	   </script>
+	</body>
+</html>

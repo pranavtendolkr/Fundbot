@@ -1,0 +1,77 @@
+<div class="optionDetails">
+
+  <div class="action quickCompare" ng-if="allowComparing && !model.readyToCompare&&!compareOp">
+    <a ng-click="clickCompare(index)">
+      Compare With
+    </a>
+  </div> 
+  
+  <table class="opValues">
+    <tr  ng-if="compareOp">
+      <th class="op"  colspan=2 >
+        <span truncate>{{ op.getName() }}</span>
+      </th>
+      
+      <th class="compareOp" truncate>
+        <span truncate>{{ compareOp.getName() }}</span>
+        <span class="close" ng-click="close()"></span>
+      </th>
+    </tr>
+
+    <tr ng-if="model.readyToCompare&&!compareOp" >
+      <td colspan=3 class="tempCompareTextEmpty">
+        &nbsp;
+      </td>
+      <td  rowspan={{view.getColumns().length+1}}  class="tempCompareText">
+        <span class="close" ng-click="close()"></span>
+        <div class="textEmpty">Click on another candidate on the visual for a side by side comparison</div>
+      </td>
+    </tr>
+    
+    <tr ng-repeat="col in view.getColumns()">
+      <td class="valueBullet column_{{::col.getIndex()}}">
+        <span></span>
+      </td>
+      <td class="colName" truncate ng-if="!compareOp&&!model.readyToCompare">
+        {{::col.getFullName()}}
+      </td>
+      <td class="colValue" >
+        <span>
+          {{::col.getValue(op) | taColumnValue:col}}
+        </span>
+      </td>
+      
+       <td class="colValue2" ng-if="compareOp">
+        <span >
+          {{col.getValue(compareOp) | taColumnValue:col}}
+          <span class="column " ng-class="{gain: refIsBetter(col)}" ng-if='col.getType()!=="ENUM"'>
+            {{col.getNumericValue(refOp)- col.getNumericValue(withOp) | taColumnValue:col}}
+          </span>
+        </span>
+      </td>
+    </tr>
+  </table>
+    
+  <div class="moreValues" ng-show="!details">
+    <table class="opValues"  >
+      <tr ng-repeat="col in view.getScenario().getNonObjectiveColumns()">
+        <td class="valueBullet"></td>
+        <td class="colName" truncate ng-if="!compareOp">
+          {{::col.getFullName()}}
+        </td>
+        <td class="colValue">
+          {{::col.getValue(op) | taColumnValue:col}}
+        </td>
+      </tr>
+    </table>
+  </div>
+  
+    
+  <div class="action moreDetails" ng-if="!compareOp">
+    <a ng-click="clickMore()" >
+      <span ng-if="details">More</span>
+      <span ng-if="!details">Less</span>
+    </a>
+  </div> 
+  
+</div>

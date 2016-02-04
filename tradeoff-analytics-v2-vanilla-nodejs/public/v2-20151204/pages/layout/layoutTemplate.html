@@ -1,0 +1,88 @@
+<div class="layout">
+
+<div class='dim-all' ng-if="showWarning || showErrorDialog || showMsgDialog">
+</div>
+<div class='dialog' ng-if="showWarning">
+  <h1>Your Best Candidates could change!</h1>
+  <p>Please be advised that upon adding/removing criteria, or changing criteria customization settings,
+  your Best Candidates will change. Watson will build a new customized map based on your newly defined criteria. </p>
+  <div class='button-bar'>
+    <div>
+      <button ng-click='warningCancel()'>CANCEL</button>
+      <button ng-click='warningOK()'>I UNDERSTAND</button>
+    </div>
+
+    <div class="askShowAgain" ng-click="toggleShowAgain()">
+      <span class='checkbox' ng-class='dontShowAgain ? "checked" : ""'></span>
+      <span>Don't show me this again.</span>
+    </div>
+  </div>
+</div>
+
+<div class='dialog' ng-if="showErrorDialog">
+  <h1>Oops! Something went wrong</h1>
+  <friendly-json message="errorMsg"></friendly-json>
+  <div class='button-bar'>
+    <div>
+      <button ng-click='errorOK()'>OK</button>
+    </div>
+  </div>
+</div>
+
+<div class='dialog' ng-show="showMsgDialog">
+  <h2>{{message}}</h2>
+  <div class='button-bar'>
+    <div>
+      <button ng-click='msgOK()'>OK</button>
+    </div>
+  </div>
+</div>
+
+<div>Funds for all header here </div>
+
+<div ng-switch="currentStep.name" class="switchContainer">
+  <ta-wait-page ng-switch-when="waitStep"></ta-wait-page>
+  <ta-select-candidates-page ng-switch-when="selectCandidatesStep"></ta-select-candidates-page>
+  <ta-compare-page ng-switch-when="compareStep"></ta-compare-page>
+  <ta-summary-page ng-switch-when="summaryStep"></ta-summary-page>
+  <ta-customize-page ng-switch-when="customizeStep"></ta-customize-page>
+  <ta-objectives-page ng-switch-default="objectivesStep"></ta-objectives-page>
+</div>
+
+
+<div id="footer" ng-show="showFooter">
+
+  <div class="footerWin">
+    <p class="footer-text">
+      <button class="footerBut backBtn" ng-click="clickBack()"
+        ng-if="currentStep != objectivesStep && currentStep != waitStep"
+        ng-disabled="!currentStep.prevStep()">
+        {{currentStep.getLabelBack()}}</button>
+      <button class="footerBut nextBtn" ng-disabled="!currentStep.nextStep()"
+        ng-if="currentStep != waitStep && currentStep != summaryStep"
+        ng-click="clickNext()">
+        {{currentStep.getLabelNext() }}</button>
+      <button class="footerBut nextBtn" ng-disabled="!currentStep.nextStep()"
+        ng-if="currentStep == objectivesStep"
+        ng-click="clickLaunch()">
+        {{customizeStep.getLabelNext() }}</button>
+      <button class="footerBut" ng-if="currentStep === summaryStep"
+        ng-click="clickDone()">DONE</button>
+    </p>
+
+  </div>
+
+</div>
+
+  <div class="progressBar"  >
+    <div class="progressBox" >
+      <ta-progress-item number="1" text="'Define Criteria'" progress="{{getProgress1()}}"></ta-progress-item>
+    </div>
+    <div class="progressBox" >
+      <ta-progress-item number="2"  text="'Select Candidates'" progress="{{getProgress2()}}"></ta-progress-item>
+    </div>
+    <div class="progressBox" >
+      <ta-progress-item number="3"  text="'Compare Candidates'" progress="{{getProgress3()}}" ></ta-progress-item>
+    </div>
+  </div>
+</div>

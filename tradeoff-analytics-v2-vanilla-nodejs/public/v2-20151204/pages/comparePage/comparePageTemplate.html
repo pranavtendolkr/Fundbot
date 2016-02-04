@@ -1,0 +1,75 @@
+<div class="comparePage">
+
+  <div class="mainContainer">
+
+    <!--   start content -->
+    <div class="filtersPane" >
+        <ta-filters-pane  view="view" edit-objectives='moveToStep(objectivesStep)' expansion-state="model.getComparePage().getFiltersExpansionState()"></ta-filters-pane>
+    </div>
+    
+    <div class="dataPane">
+
+      <div class="headerPane">
+        <h1 class="topTitle">Compare Candidates</h1>
+        <div ng-click="model.getComparePage().showTable=false" class="topNav">
+          <table >
+            <tr>
+              <td class="iconTop" >
+                <a href=# class="navSelect" ng-class="{'navSelect2': !model.getComparePage().showTable}">
+                  <span ng-include="'images/lines.svg'" class="topIcons">
+                  </span>
+                  <span>Lines</span>
+                </a>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div ng-click="model.getComparePage().showTable=true" class="topNav">
+          <table >
+            <tr>
+              <td class="iconTop" >
+                <a href=# class="navSelect" ng-class="{'navSelect2': model.getComparePage().showTable}">
+                  <span ng-include="'images/table.svg'" class="topIcons"></span>
+                  <span>Table</span>
+                </a>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div ng-show="model.getComparePage().showTable" class="main-area">
+        <ta-select-table  model="model" view="view" allow-final="true"></ta-select-table>
+      </div>
+      <div ng-show="!model.getComparePage().showTable" class="main-area">
+        <ta-pc  view="view" model="model" axis-top="6" axis-bottom="6"></ta-pc>
+        <ta-list  model="model" view="view" allow-final="true" ></ta-list>
+      </div>
+    </div>
+    <!--   end content -->
+  </div>
+  
+  <div class="comparePane" >
+    <div class="title" >YOUR FINAL SELECTED CANDIDATES</div>
+
+    <div class="candidatesPane" ng-show="model.haveCandidates()" >
+      <span 
+        ng-show="model.getFinalDecision()"
+        class="op real"
+        ng-mouseenter="model.hover(model.getFinalDecision())" 
+        ng-mouseleave="model.hover()" 
+        ng-click="model.select(model.getFinalDecision())"
+        ng-class="{
+          final:model.getFinalDecision(),
+          hovered:model.isHovered(model.getFinalDecision()),
+          selected:model.isSelected(model.getFinalDecision())
+        }">
+        <span truncate class="opName">{{model.getFinalDecision().getName()}}</span> 
+        <span class="remove" ng-click="model.setFinalDecision()">
+        </span>
+      </span>
+    </div>
+
+  </div>
+</div>

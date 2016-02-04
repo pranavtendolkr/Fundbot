@@ -1,0 +1,19 @@
+<g class="bars">
+
+  <circle 
+      ng-attr-cx="{{::scale/2}}" 
+      ng-attr-cy="{{::scale/2}}" 
+      ng-attr-r="{{::scale/2}}" 
+      class="outline primary"/>
+      
+  <path 
+      class="splitter"
+      ng-repeat="anc in map.getAnchors()" 
+      ng-attr-d="{{::glyphValueOutline(anc, $index)}}" />
+
+  <path 
+      ng-repeat="anc in map.getAnchors()" 
+      ng-attr-d="{{::glyphValueFill(anc, $index)}}" 
+      class="slice slice{{::anchorObjectiveIndex(anc)}}"/>
+
+</g>

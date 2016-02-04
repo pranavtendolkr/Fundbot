@@ -1,0 +1,57 @@
+<div class="optionsTable">
+
+ <table  width=100% class="tb">
+    <tr>
+      <th class="addCandidateBtn sortHeader"></th>
+      <th 
+        class="opName sortHeader" 
+        ng-click="nameHeaderClicked()" 
+        ng-class="{
+          sorted: sortByName,
+          reverse: reverse
+        }">
+        Candidates
+      </th>
+      <th 
+        ng-repeat="column in view.getColumns()" 
+        class="opValue column_{{::column.getIndex()}} sortHeader" 
+        ng-click="valueHeaderClicked(column)"
+        ng-class="{
+          sorted: sortByColumn==column,
+          reverse: reverse
+        }"
+        >
+        {{::column.getFullName()}}</th>
+    </tr>
+  
+    <tr ng-repeat= "op in view.getOptionsIn() | orderBy:sortFn:reverse"
+        ng-mouseenter="model.hover(op)" 
+        ng-mouseleave="model.hover()"
+        ng-class="{
+         hovered : model.isHovered(op),
+         selected : model.isSelected(op),
+         candidate : model.isCandidate(op),
+         final: model.isFinalDecision(op)}">
+      <td>
+        <button ng-click="addToSelect(op)" class="tableBut" ng-class="{dominatedBut: dominated}" ng-show="allowSelect && !model.isCandidate(op)">SELECT</button>
+         <button ng-click="removeFromSelect(op);" class="button removeBtn"
+    ng-show="allowSelect && model.isCandidate(op)">
+    REMOVE
+  </button>
+        
+        
+        <button ng-click="setAsFinal(op)" class="tableBut" ng-show="allowFinal && !model.isFinalDecision(op)">FINAL</button>
+            <button ng-click="setAsFinal();" class="tableBut removeBtn"
+    ng-show="allowFinal && model.isFinalDecision(op)">
+    REMOVE
+  </button>
+      </td>
+      <td class="opName">
+        <span>{{::op.getName()}}</span>
+      </td>
+      <td class="opValue" ng-repeat= "col in view.getColumns()">
+          {{::col.getValue(op) | taColumnValue:col}}
+      </td>
+    </tr>
+  </table>
+</div>

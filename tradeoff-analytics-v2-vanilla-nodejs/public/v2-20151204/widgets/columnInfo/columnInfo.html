@@ -1,0 +1,38 @@
+<g class="columnInfo" 
+    ng-class="{active: allowNavigation && model.getSelected()}">
+  <path ng-attr-d="{{::backgroundPath()}}" class="back"/>
+  <g class="line1">
+    <g transform="translate(1,1)" 
+        class="arrow up" 
+        ng-class="{disabled: currentOptionIsBest()}" 
+        ng-click="selectNextOp(true)">
+      <title>Navigate Map by {{::column.getFullName()}}</title>
+      <circle cx="2" cy="2" r="2"/>
+      <path d="M1,2 2,1 3,2"/>
+    </g>
+    <ta-svg-text-box 
+        max-char-length="{{::(allowNavigation && 8) || 12}}" 
+        text="{{currentOptionObjectiveValue(column) | taColumnValue:column}}"
+        ng-attr-transform="translate({{::width/2}}, {{::height/4}})"  
+        class="value"/>
+    <g ng-attr-transform="translate({{::width-5}},1)" 
+        class="arrow down" 
+        ng-class="{disabled: currentOptionIsWorst()}" 
+        ng-click="selectNextOp(false)">
+      <title>Navigate Map by {{::column.getFullName()}}</title>
+      <circle cx="2" cy="2" r="2"/>
+      <path d="M1,2 2,3 3,2"/>
+    </g>
+  </g>
+  
+  <g class="line2" ng-attr-transform="translate(0, {{::height/2}})">
+    <rect class="background"
+       ng-attr-width="{{::width}}"
+       ng-attr-height="{{::height/2}}"></rect> 
+    <ta-svg-text-box 
+        max-char-length="16" 
+        text="{{::column.getFullName()}}"
+        ng-attr-transform="translate({{::width/2}}, {{::height/4}})"  
+        class="colName"/>
+  </g>
+</g>

@@ -1,0 +1,38 @@
+<g class="compare" ng-if="refOp && withOp && (refOp != withOp)">
+  <g class="column " 
+      ng-repeat="col in view.getColumns()"
+      ng-if="col.getNumericValue(refOp) != col.getNumericValue(withOp)"
+      ng-class="{gain: refIsBetter(col), enum: col.getType()=='ENUM'}" >
+    <title>
+      refY:{{axisOpY(refOp, col) }} refBetter:{{refIsBetter(col)}} refDelta:{{((refIsBetter(col) && 1) || -1)}}
+    </title>
+    <line
+        class="gapLine"
+        ng-attr-x1="{{::axisX(col)}}"
+        ng-attr-x2="{{::axisX(col)}}"
+        ng-attr-y1="{{axisOpY(refOp, col) + ((refIsBetter(col) && 1) || -1)}}"
+        ng-attr-y2="{{axisOpY(withOp, col)+ ((refIsBetter(col) &&-1) ||  1)}}"/>
+     
+    <g class="info" ng-attr-transform="translate({{::axisX(col) + 3}}, {{axisOpY(withOp , col)-3}})">
+      <path class="back" d="M-2,3 l2,-1 l0,-2 l12,0 l0,6 l-12,0 l0,-2 z"/>
+      <path class="arrow" d="M1,1 l1,1.4 l1,-1.4 z"/>
+      
+      <text class="numericGap">
+        <tspan y="1em" x="3" >
+          {{col.getNumericValue(refOp)- col.getNumericValue(withOp) | taColumnValue:col}}
+        </tspan>
+        <tspan y="2.2em" x="3" class="gapValue">
+          ({{relativeValue(col)| number:0}}%)
+        </tspan>
+      </text>
+      <text class="enumGap">
+        <tspan y="1em" x="3" >
+          based on
+        </tspan>
+        <tspan y="2.2em" x="3" class="gapValue">
+          set order
+        </tspan>
+      </text>
+    </g>
+  </g>
+</g>

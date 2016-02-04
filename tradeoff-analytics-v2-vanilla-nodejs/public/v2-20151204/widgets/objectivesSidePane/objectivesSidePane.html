@@ -1,0 +1,53 @@
+<div class="rightPane">
+  <div class="top">
+    <div class="title2">
+      Select criteria from the left hand side, Funds for All will provide a list of candidates based on the objectives.
+    </div>
+    <div class="mapPreview">
+    <div ng-show="model.getScenario().getObjectives().length<1" style="width:130px;height:130px;text-align:center">
+<img src="images/globus.png">
+
+    </div>
+
+
+	    <svg ta-vbox="0 0 {{::VIEW_BOX}} {{::VIEW_BOX}}" ng-show="model.getScenario().getObjectives().length>0">
+		    <defs></defs>
+		    <g class="root" >
+          <polyline
+             ng-attr-points="{{framePolyline()}}"
+             class="frame"></polyline>
+          <g class="anchors">
+  		      <g
+  		        ng-repeat="obj in model.getScenario().getObjectives()"
+  		        ng-class="'anchor objective_'+obj.getIndex()"
+  		        ng-attr-transform="translate({{objectivePosition(obj)}})">
+  		        <rect width="1em" height="1em" x="-.5em" y="-.5em"></rect>
+  		        <title>{{::obj.getFullName()}}</title>
+  		      </g>
+          </g>
+	       </g>
+  	  </svg>
+    </div>
+  </div>
+  <div class="splitter"></div>
+  <div class="bottom">
+    <div class="title2">
+      Your selected criteria:
+    </div>
+    <div class="table">
+      <table>
+        <tr ng-repeat="obj in model.getScenario().getObjectives()" ng-class-odd="'odd'">
+          <td class="bullet objective_{{obj.getIndex()}}" >
+            <div></div>
+          </td>
+          <td class="name">
+            {{::obj.getFullName()}}
+          </td>
+          <td class="remove" ng-click="model.getScenario().setAsObjective(obj, false)">
+          </td>
+          <td style="width:0.5em"></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
