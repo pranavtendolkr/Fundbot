@@ -4,6 +4,7 @@ import sqlite3
 import datetime
 from dateutil import parser
 import random
+import dialog_rest
 
 # returns watson's reply
 def converse(phone,message):
@@ -72,11 +73,13 @@ def converse(phone,message):
 
 
 def call_api(client_id,conversation_id,message):
+    param = {'client_id': client_id, 'conversation_id':conversation_id, 'input':message}
+    return dialog_rest.post_request('conversation',param)
     return random.random(), random.random() , "response1"
 
 
 def get_profile(client_id):
-    pass
+    return dialog_rest.get_request('profile',param)
 
 
 
