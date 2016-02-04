@@ -16,7 +16,7 @@ from yowsup.layers.axolotl import YowAxolotlLayer
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
-CREDENTIALS = ("918322265568", "zJ9o0i4bnItrQiWyK+BLyacfbY4=") # replace with your phone and password
+CREDENTIALS = ("918326753440", "B0GA+zolfZXa1zmlUh9WmQpIOnc=") # replace with your phone and password
 
 if __name__==  "__main__":
     layers = (
@@ -38,4 +38,3 @@ if __name__==  "__main__":
     stack.broadcastEvent(YowLayerEvent(YowNetworkLayer.EVENT_STATE_CONNECT))   #sending the connect signal
 
     stack.loop() #this is the program mainloop
-
