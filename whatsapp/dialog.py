@@ -70,12 +70,14 @@ def converse(phone,message):
 
 
 
-
-
 def call_api(client_id,conversation_id,message):
     param = {'client_id': client_id, 'conversation_id':conversation_id, 'input':message}
-    return dialog_rest.post_request('conversation',param)
-    return random.random(), random.random() , "response1"
+    resp = dialog_rest.post_request('conversation',param)
+    try:
+        response = resp[0]+resp[1]
+    except:
+        response = resp[0]
+    return response
 
 
 def get_profile(client_id):
