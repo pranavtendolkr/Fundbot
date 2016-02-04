@@ -7,13 +7,12 @@ from yowsup.layers.protocol_receipts.protocolentities  import OutgoingReceiptPro
 from yowsup.layers.protocol_acks.protocolentities      import OutgoingAckProtocolEntity
 
 import subprocess as sub
-import tradeoff
-import dialog
+# import tradeoff
+# import dialog
 
 
 
 
-from .cli import Cli, clicmd
 from yowsup.layers.interface import YowInterfaceLayer, ProtocolEntityCallback
 from yowsup.layers.auth import YowAuthenticationProtocolLayer
 from yowsup.layers import YowLayerEvent
@@ -43,70 +42,6 @@ from yowsup.common.tools import ModuleTools
 
 class EchoLayer(YowInterfaceLayer):
 
-    @ProtocolEntityCallback("message")
-    def onMessage(self, messageProtocolEntity):
-        # send receipt otherwise we keep receiving the same message over and over
-
-        if True:
-            receipt = OutgoingReceiptProtocolEntity(messageProtocolEntity.getId(), messageProtocolEntity.getFrom(), 'read', messageProtocolEntity.getParticipant())
-            message=messageProtocolEntity.getBody()
-            print message + "\n"
-
-            output,client_id=dialog.converse(message)
-
-            if output is "Okay, thank you for using the service!":
-                profile = dialog.get_profile(client_id)
-                response,profile_has_graph = tradeoff.call_tradeoff_api(profile)
-                if(profile_has_graph is True):
-                    graph = draw_graph(response)
-                    top5 = send_graph(graph)
-                send_top_performers(top5)
-
-            image_send(messageProtocolEntity.getFrom(), 'iamge.jpg', caption="Hello")
-            print output
-            #output=message
-            outgoingMessageProtocolEntity = TextMessageProtocolEntity(
-                output,
-                to = messageProtocolEntity.getFrom())
-
-            self.toLower(receipt)
-            self.toLower(outgoingMessageProtocolEntity)
-
-    @ProtocolEntityCallback("receipt")
-    def onReceipt(self, entity):
-        ack = OutgoingAckProtocolEntity(entity.getId(), "receipt", entity.getType(), entity.getFrom())
-        self.toLower(ack)
-
-# kaand starts here
-    def image_send(self, number, path, caption=None):
-        if self.assertConnected():
-            jid = self.aliasToJid(number)
-            entity = RequestUploadIqProtocolEntity(RequestUploadIqProtocolEntity.MEDIA_TYPE_IMAGE, filePath=path)
-            successFn = lambda successEntity, originalEntity: self.onRequestUploadResult(jid, path, successEntity, originalEntity, caption)
-            errorFn = lambda errorEntity, originalEntity: self.onRequestUploadError(jid, path, errorEntity, originalEntity)
-
-            self._sendIq(entity, successFn, errorFn)
-
-    def onRequestUploadResult(self, jid, filePath, resultRequestUploadIqProtocolEntity, requestUploadIqProtocolEntity, caption = None):
-        if requestUploadIqProtocolEntity.mediaType == RequestUploadIqProtocolEntity.MEDIA_TYPE_AUDIO:
-            doSendFn = self.doSendAudio
-        else:
-            doSendFn = self.doSendImage
-
-        if resultRequestUploadIqProtocolEntity.isDuplicate():
-            doSendFn(filePath, resultRequestUploadIqProtocolEntity.getUrl(), jid,
-                             resultRequestUploadIqProtocolEntity.getIp(), caption)
-        else:
-            successFn = lambda filePath, jid, url: doSendFn(filePath, url, jid, resultRequestUploadIqProtocolEntity.getIp(), caption)
-            mediaUploader = MediaUploader(jid, self.getOwnJid(), filePath,
-                                      resultRequestUploadIqProtocolEntity.getUrl(),
-                                      resultRequestUploadIqProtocolEntity.getResumeOffset(),
-                                      successFn, self.onUploadError, self.onUploadProgress, async=False)
-            mediaUploader.start()
-
-
-    ########### callbacks ############
-
     def onRequestUploadError(self, jid, path, errorRequestUploadIqProtocolEntity, requestUploadIqProtocolEntity):
         print("Request upload for file %s for %s failed" % (path, jid))
 
@@ -128,3 +63,72 @@ class EchoLayer(YowInterfaceLayer):
     def doSendAudio(self, filePath, url, to, ip=None, caption=None):
         entity = AudioDownloadableMediaMessageProtocolEntity.fromFilePath(filePath, url, ip, to)
         self.toLower(entity)
+
+
+    def onRequestUploadResult(self, jid, filePath, resultRequestUploadIqProtocolEntity, requestUploadIqProtocolEntity, caption = None):
+        if requestUploadIqProtocolEntity.mediaType == RequestUploadIqProtocolEntity.MEDIA_TYPE_AUDIO:
+            doSendFn = self.doSendAudio
+        else:
+            doSendFn = self.doSendImage
+
+        if resultRequestUploadIqProtocolEntity.isDuplicate():
+            doSendFn(filePath, resultRequestUploadIqProtocolEntity.getUrl(), jid,
+                             resultRequestUploadIqProtocolEntity.getIp(), caption)
+        else:
+            successFn = lambda filePath, jid, url: doSendFn(filePath, url, jid, resultRequestUploadIqProtocolEntity.getIp(), caption)
+            mediaUploader = MediaUploader(jid, self.getOwnJid(), filePath,
+                                      resultRequestUploadIqProtocolEntity.getUrl(),
+                                      resultRequestUploadIqProtocolEntity.getResumeOffset(),
+                                      successFn, self.onUploadError, self.onUploadProgress, async=False)
+            mediaUploader.start()
+
+
+    def image_send(self, number, path, caption=None):
+        #jid = self.aliasToJid(number)
+        jid = number
+        entity = RequestUploadIqProtocolEntity(RequestUploadIqProtocolEntity.MEDIA_TYPE_IMAGE, filePath=path)
+        successFn = lambda successEntity, originalEntity: self.onRequestUploadResult(jid, path, successEntity, originalEntity, caption)
+        errorFn = lambda errorEntity, originalEntity: self.onRequestUploadError(jid, path, errorEntity, originalEntity)
+
+        self._sendIq(entity, successFn, errorFn)
+
+
+    @ProtocolEntityCallback("message")
+    def onMessage(self, messageProtocolEntity):
+        # send receipt otherwise we keep receiving the same message over and over
+
+        if True:
+            receipt = OutgoingReceiptProtocolEntity(messageProtocolEntity.getId(), messageProtocolEntity.getFrom(), 'read', messageProtocolEntity.getParticipant())
+            message=messageProtocolEntity.getBody()
+            print message + "\n"
+
+            # output,client_id=dialog.converse(message)
+            output =  message
+
+            # if output is "Okay, thank you for using the service!":
+            #     profile = dialog.get_profile(client_id)
+            #     response,profile_has_graph = tradeoff.call_tradeoff_api(profile)
+            #     if(profile_has_graph is True):
+            #         graph = draw_graph(response)
+            #         top5 = send_graph(graph)
+            #     send_top_performers(top5)
+
+            self.image_send(messageProtocolEntity.getFrom(), 'image.jpg', caption="Hello",)
+            print output
+            outgoingMessageProtocolEntity = TextMessageProtocolEntity(
+                output,
+                to = messageProtocolEntity.getFrom())
+
+            self.toLower(receipt)
+            self.toLower(outgoingMessageProtocolEntity)
+
+    @ProtocolEntityCallback("receipt")
+    def onReceipt(self, entity):
+        ack = OutgoingAckProtocolEntity(entity.getId(), "receipt", entity.getType(), entity.getFrom())
+        self.toLower(ack)
+
+
+
+
+
+    ########### callbacks ############
