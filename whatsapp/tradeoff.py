@@ -13,7 +13,7 @@ def get_listof_params(profile):
     graph = False
     for item in profile['name_values']:
         if item['value'] is not "":
-            if item['value'] is 'graph':
+            if item['value'] == 'graph':
                 graph = True
             else:
                 params.append(item['value'])
@@ -30,7 +30,10 @@ def call_tradeoff_api(profile):
     for param in params:
         for i, column in enumerate(tradeoff_input['columns']):
             if param == column['key']:
+		print "setting %s as objective"%(tradeoff_input['columns'][i]['key'])
                 tradeoff_input['columns'][i]['is_objective'] = True
+    print "columns in tradeoff are\n"
+    print tradeoff_input['columns']
 
 
     headers = {'Content-Type': 'application/json'}

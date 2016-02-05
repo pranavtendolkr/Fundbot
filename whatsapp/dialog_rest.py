@@ -34,7 +34,7 @@ def get_request(path,param):
     login_URL = login_URL.format(dialog_id, path)
     query=''
     for key in param:
-        query=query+"{0}={1}".format(key,param[key])+"&"
+        query=query+"{0}={1}".format(key,param[key])
 
     login_URL = login_URL +'?'+query
 

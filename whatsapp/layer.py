@@ -21,20 +21,34 @@ class EchoLayer(YowInterfaceLayer):
             receipt = OutgoingReceiptProtocolEntity(messageProtocolEntity.getId(), messageProtocolEntity.getFrom(), 'read', messageProtocolEntity.getParticipant())
             message=messageProtocolEntity.getBody()
             print message + "\n"
-
             output,client_id = dialog.converse( messageProtocolEntity.getFrom(),message)
-
-            if output == "Okay, thank you for using the service!":
+            print "=================================================client id=%s=========="%(str(client_id))
+#	    profile = {}
+#	    if "Is that correct?" in output:
+#		print "in correct"
+#		global profile
+#		profile = dialog.get_profile(client_id)
+#                print profile
+#            if output == "Okay, thank you for using the service!":
+            if "start over" in output or "another request" in output:
                 profile = dialog.get_profile(client_id)
+		print profile
                 response,profile_has_graph = tradeoff.call_tradeoff_api(profile)
-                print type(response)
-                if(profile_has_graph is True):
-                    link = grapher.PlotGraphi.plot_graph(str(response))
+		print profile_has_graph
+		import json
+		with open('dump.json','w') as f:
+		    json.dump(response,f)
+		                
+		if(profile_has_graph ==  True):
+                    link = grapher.PlotGraph.plot_graph(str(response))
+     		    print link
+    	            output = output + "\n Here is your graph: %s"%(link)
                 top5 = grapher.PlotGraph.top_five(response)
+		print top5
                 output = "The top mutual funds we selected for you are:\n"
                 for i,item in enumerate(top5):
                     output = output + '%i,%s\n'%(i,item)
-                output = output + "\n and here is the graph you requested \n %s"%(link)
+
 
             print output
             #output=message

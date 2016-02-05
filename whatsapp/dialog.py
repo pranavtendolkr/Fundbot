@@ -82,7 +82,12 @@ def call_api(client_id,conversation_id,message):
 
 def get_profile(client_id):
     param ={'client_id':client_id}
-    return dialog_rest.get_request('profile',param)
+    print "+++++++++++++++++++++++++++++in get_profile________________________________params are"
+    print param
+    resp = dialog_rest.get_request('profile',param)
+    print "response is %s" %resp
+    print resp
+    return resp
 
 
 
