@@ -33,6 +33,7 @@ class PlotGraph(object):
         problem=jsonresp['problem']
         for node in top5nodes:
             PlotGraph.draw_node_points(node,problem)
+
         return PlotGraph.upload_image(imagepath)
 
     @staticmethod

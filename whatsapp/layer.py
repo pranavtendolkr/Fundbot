@@ -40,7 +40,8 @@ class EchoLayer(YowInterfaceLayer):
 		    json.dump(response,f)
                 link=''		                
 		if(profile_has_graph ==  True):
-                    link = grapher.PlotGraph.plot_graph(response)
+		    grphr = grapher.PlotGraph()
+                    link = grphr.plot_graph(response)
      		    print link
 		# yes this line works. :P
                 x,top5 = grapher.PlotGraph.top_five(response)
