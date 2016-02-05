@@ -17,8 +17,8 @@ class PlotGraph(object):
 
     @staticmethod
     def plot_graph(data=None):
-        #jsonresp=json.loads(data)
-	jsonresp=data
+        jsonresp=json.loads(data)
+	#jsonresp=data
 
         anchors=jsonresp['resolution']['map']['anchors']
         anchor_polygon=[]
@@ -28,7 +28,8 @@ class PlotGraph(object):
             anchor_polygon.append([anchor['position']['x'],anchor['position']['y']])
         PlotGraph.draw_polygon(anchor_polygon)
 
-        top5nodes=PlotGraph.top_five(jsonresp)
+        top5nodes,top5names=PlotGraph.top_five(jsonresp)
+        print top5nodes
         problem=jsonresp['problem']
         for node in top5nodes:
             PlotGraph.draw_node_points(node,problem)
@@ -65,11 +66,10 @@ class PlotGraph(object):
         plt.axis('scaled')
         plt.savefig(imagepath,dp=100)
         plt.show()
-
+		
     @staticmethod
-    def draw_node_points(anchor=None,problem=None):
-        plt.plot(anchor['coordinates']['x'],anchor['coordinates']['y'],'g^')
-        node_label_solref=anchor["solution_refs"]
+    def get_top5names(anchor=None,problem=None):
+	node_label_solref=anchor["solution_refs"]
         all_ref=""
         problems=problem["options"]
         for sol_ref in node_label_solref:
@@ -78,14 +78,19 @@ class PlotGraph(object):
                 all_ref=all_ref+solution_label[0]["name"]
             else:
                 all_ref=all_ref+","+solution_label[0]["name"]
+	    return all_ref
+	
+    @staticmethod
+    def draw_node_points(anchor=None,problem=None):
+        plt.plot(anchor['coordinates']['x'],anchor['coordinates']['y'],'g^')
+        all_ref=PlotGraph.get_top5names(anchor,problem)
         plt.text(anchor['coordinates']['x'],anchor['coordinates']['y'],all_ref)
         plt.axis('scaled')
         figure = plt.gcf()
         figure.set_size_inches(length,height)
         plt.savefig(imagepath,dp=100)
         plt.show()
-
-
+		
     @staticmethod
     def top_five(jsonresp=None):
         anchors=jsonresp['resolution']['map']['anchors']
@@ -113,10 +118,16 @@ class PlotGraph(object):
             top5.append(tuple[1])
             if(i>=4):
                 break
-        return top5
+        problem=jsonresp['problem']
+        top5name=[]
+        for node in top5:
+            top5name.append(PlotGraph.get_top5names(node,problem))
+        return top5,top5name
 
-# with open('x.json', 'r') as content_file:
-#     content = content_file.read()
-#
-# #print content
-# PlotGraph.plot_graph(str(content))
+#with open('x.json', 'r') as content_file:
+#    content = content_file.read()
+
+#print content
+#top5points,top5names= PlotGraph.top_five(json.loads(str(content)))
+#print top5names
+#PlotGraph.plot_graph(str(content))
