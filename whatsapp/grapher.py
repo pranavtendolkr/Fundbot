@@ -17,7 +17,8 @@ class PlotGraph(object):
 
     @staticmethod
     def plot_graph(data=None):
-        jsonresp=json.loads(str(data))
+        #jsonresp=json.loads(data)
+	jsonresp=data
 
         anchors=jsonresp['resolution']['map']['anchors']
         anchor_polygon=[]

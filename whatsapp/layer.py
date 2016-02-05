@@ -38,17 +38,17 @@ class EchoLayer(YowInterfaceLayer):
 		import json
 		with open('dump.json','w') as f:
 		    json.dump(response,f)
-		                
+                link=''		                
 		if(profile_has_graph ==  True):
-                    link = grapher.PlotGraph.plot_graph(str(response))
+                    link = grapher.PlotGraph.plot_graph(response)
      		    print link
-    	            output = output + "\n Here is your graph: %s"%(link)
+		# yes this line works. :P
                 top5 = grapher.PlotGraph.top_five(response)
 		print top5
                 output = "The top mutual funds we selected for you are:\n"
                 for i,item in enumerate(top5):
                     output = output + '%i,%s\n'%(i,item)
-
+                output = (output + "\n Here is your graph: %s"%(link))if profile_has_graph else output 
 
             print output
             #output=message
