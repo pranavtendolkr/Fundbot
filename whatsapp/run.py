@@ -16,7 +16,7 @@ from yowsup.layers.axolotl import YowAxolotlLayer
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
-CREDENTIALS = ("918322265568", "zJ9o0i4bnItrQiWyK+BLyacfbY4=") # replace with your phone and password
+CREDENTIALS = ("918326753440", "xY6ENRrDJpYzc6qKLoTSSW+4G6E=") # replace with your phone and password
 
 if __name__==  "__main__":
     layers = (

@@ -35,7 +35,7 @@ def call_tradeoff_api(profile):
 
     headers = {'Content-Type': 'application/json'}
     auth = HTTPBasicAuth(api_username,api_password)
-    response = requests.post(api_url,auth=auth,headers=headers,data=json.dumps(tradeoff_input), proxies=proxy)
+    response = requests.post(api_url,auth=auth,headers=headers,data=json.dumps(tradeoff_input))
     # print response.status_code
     # with open('test.json','w') as f:
     #     json.dump(response.json(),f,indent=4, sort_keys=True)

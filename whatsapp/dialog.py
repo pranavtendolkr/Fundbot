@@ -74,13 +74,14 @@ def call_api(client_id,conversation_id,message):
     param = {'client_id': client_id, 'conversation_id':conversation_id, 'input':message}
     resp = dialog_rest.post_request('conversation',param)
     try:
-        response = resp[0]+resp[1]
+        response = resp['response'][0]+resp['response'][1]
     except:
-        response = resp[0]
-    return response
+        response = resp['response'][0]
+    return  resp['client_id'],  resp['conversation_id'] ,response
 
 
 def get_profile(client_id):
+    param ={'client_id':client_id}
     return dialog_rest.get_request('profile',param)
 
 

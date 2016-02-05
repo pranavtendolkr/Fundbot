@@ -24,7 +24,7 @@ def post_request(path,param):
         return p.json()
     else:
         print(p.text)
-        return "Sorry, Something went wrong!!!"
+        return {"response":["Sorry, Something went wrong!!!"]}
 
 
 
@@ -45,4 +45,5 @@ def get_request(path,param):
         return p.json()
     else:
         print(p.text)
-        return "Sorry, Something went wrong!!!"
+        return {"response":["Sorry, Something went wrong!!!"]}
+

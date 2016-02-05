@@ -22,14 +22,15 @@ class EchoLayer(YowInterfaceLayer):
             message=messageProtocolEntity.getBody()
             print message + "\n"
 
-            output,client_id = dialog.converse(message)
+            output,client_id = dialog.converse( messageProtocolEntity.getFrom(),message)
 
             if output == "Okay, thank you for using the service!":
                 profile = dialog.get_profile(client_id)
                 response,profile_has_graph = tradeoff.call_tradeoff_api(profile)
+                print type(response)
                 if(profile_has_graph is True):
-                    link = grapher.PlotGraph(str(response))
-                top5 = grapher.top_five(response)
+                    link = grapher.PlotGraphi.plot_graph(str(response))
+                top5 = grapher.PlotGraph.top_five(response)
                 output = "The top mutual funds we selected for you are:\n"
                 for i,item in enumerate(top5):
                     output = output + '%i,%s\n'%(i,item)
