@@ -17,8 +17,8 @@ class PlotGraph(object):
 
     @staticmethod
     def plot_graph(data=None):
-        jsonresp=json.loads(data)
-	#jsonresp=data
+#        jsonresp=json.loads(data)
+	jsonresp=data
 
         anchors=jsonresp['resolution']['map']['anchors']
         anchor_polygon=[]
@@ -33,7 +33,6 @@ class PlotGraph(object):
         problem=jsonresp['problem']
         for node in top5nodes:
             PlotGraph.draw_node_points(node,problem)
-
         return PlotGraph.upload_image(imagepath)
 
     @staticmethod

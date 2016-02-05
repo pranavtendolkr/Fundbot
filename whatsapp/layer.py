@@ -43,12 +43,14 @@ class EchoLayer(YowInterfaceLayer):
                     link = grapher.PlotGraph.plot_graph(response)
      		    print link
 		# yes this line works. :P
-                top5 = grapher.PlotGraph.top_five(response)
+                x,top5 = grapher.PlotGraph.top_five(response)
 		print top5
                 output = "The top mutual funds we selected for you are:\n"
                 for i,item in enumerate(top5):
-                    output = output + '%i,%s\n'%(i,item)
-                output = (output + "\n Here is your graph: %s"%(link))if profile_has_graph else output 
+                    output = output + '%i: %s\n'%(i+1,item)
+                output = (output + "\n Here is your graph: %s"%(link))if profile_has_graph else output
+  	    output = output.replace("&lt;br/&gt;",'').replace('\t','')
+
 
             print output
             #output=message
