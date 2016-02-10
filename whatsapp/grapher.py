@@ -2,6 +2,7 @@ import json
 import matplotlib
 matplotlib.use('Agg')
 import math
+import os
 import collections
 import matplotlib.pyplot as plt
 from shapely.geometry import Polygon
@@ -43,6 +44,7 @@ class PlotGraph(object):
         client_id = '3ae9387ee3ea12f'
         im = pyimgur.Imgur(client_id)
         uploaded_image = im.upload_image(path+".png", title="Mutual fund graph")
+	os.remove(path+'.png')
         return uploaded_image.link
 
     @staticmethod
@@ -90,6 +92,7 @@ class PlotGraph(object):
         figure.set_size_inches(length,height)
         plt.savefig(imagepath,dp=100)
         plt.show()
+
 		
     @staticmethod
     def top_five(jsonresp=None):

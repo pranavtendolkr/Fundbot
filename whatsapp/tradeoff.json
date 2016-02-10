@@ -33,7 +33,6 @@
         {
             "full_name": "Market Cap",
             "goal": "max",
-            "is_objective": true,
             "key": "Market Cap",
             "type": "numeric"
         },

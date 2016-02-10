@@ -30,27 +30,41 @@ class EchoLayer(YowInterfaceLayer):
 #		profile = dialog.get_profile(client_id)
 #                print profile
 #            if output == "Okay, thank you for using the service!":
-            if "start over" in output or "another request" in output:
-                profile = dialog.get_profile(client_id)
-		print profile
-                response,profile_has_graph = tradeoff.call_tradeoff_api(profile)
-		print profile_has_graph
-		import json
-		with open('dump.json','w') as f:
-		    json.dump(response,f)
-                link=''		                
-		if(profile_has_graph ==  True):
-		    grphr = grapher.PlotGraph()
-                    link = grphr.plot_graph(response)
-     		    print link
-		# yes this line works. :P
-                x,top5 = grapher.PlotGraph.top_five(response)
-		print top5
-                output = "The top mutual funds we selected for you are:\n"
-                for i,item in enumerate(top5):
-                    output = output + '%i: %s\n'%(i+1,item)
-                output = (output + "\n Here is your graph: %s"%(link))if profile_has_graph else output
-  	    output = output.replace("&lt;br/&gt;",'').replace('\t','')
+	    flag = False
+	    try:
+
+	            if "start over" in output or "another request" in output:
+	                profile = dialog.get_profile(client_id)
+			print profile
+			i = 0
+			for param in profile['name_values']:
+			    if param['value'] != '':
+				i=i+1
+			if i < 3:
+			    output = "please select at least 3 parameters"
+		
+	                response,profile_has_graph = tradeoff.call_tradeoff_api(profile)
+			print profile_has_graph
+			import json
+			with open('dump.json','w') as f:
+			    json.dump(response,f)
+	                link=''		                
+			if(profile_has_graph ==  True):
+			    grphr = grapher.PlotGraph()
+	                    link = grphr.plot_graph(response)
+	     		    print link
+			# yes this line works. :P
+	                x,top5 = grapher.PlotGraph.top_five(response)
+			print top5
+	                output = "The top mutual funds we selected for you are:\n"
+	                for i,item in enumerate(top5):
+	                    output = output + '%i: %s\n'%(i+1,item)
+	                output = (output + "\n Here is your graph: %s"%(link))if profile_has_graph else outputi
+			flag = True
+	  	    output = output.replace("&lt;br/&gt;",'').replace('\t','')
+
+    	    except Exception as e:
+		output ="Sorry, something went wrong." + output
 
 
             print output
