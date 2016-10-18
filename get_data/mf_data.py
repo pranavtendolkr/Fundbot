@@ -9,7 +9,6 @@ import json
 
 
 Login_URL = 'https://www.valueresearchonline.com/registration/loginprocess.asp'
-proxy = {"http": "http://bproxy.ibmsbsds1.com:3128","https": "http://bproxy.ibmsbsds1.com:3128",}
 #base_url = 'https://www.valueresearchonline.com/funds/fundSelector/fundSelectResult.asp?cat=&exc=&schemecode=&myport=&pg=&fType=csv&funcName='
 base_url = 'https://www.valueresearchonline.com/funds/fundSelector/fundSelectResult.asp?cat=&exc=fmp,susp,dir,close&schemecode=&myport=&pg=&fType=csv&funcName='
 
@@ -23,7 +22,7 @@ creds = {
 #  crawls valueresearchonline for mutual fund data and returns a list of dictionaries
 def crawl_data():
     with requests.Session() as s:
-        p = s.post(Login_URL, data=creds, proxies=proxy)
+        p = s.post(Login_URL, data=creds)
         topicData = []
         for topic in topics:
             url = base_url + topic

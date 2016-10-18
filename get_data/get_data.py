@@ -3,7 +3,6 @@ import string
 import csv
 import json
 
-proxy = {"http": "http://bproxy.ibmsbsds1.com:3128","https": "http://bproxy.ibmsbsds1.com:3128",}
 
 Login_URL = 'https://www.valueresearchonline.com/registration/loginprocess.asp'
 
@@ -22,7 +21,7 @@ creds = {
 
 
 with requests.Session() as s:
-    p = s.post(Login_URL, data=creds, proxies=proxy)
+    p = s.post(Login_URL, data=creds)
     all_data=[]
     for letter in string.uppercase + '2378':
         topicData = []

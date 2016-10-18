@@ -3,9 +3,8 @@ import requests
 from requests.auth import HTTPBasicAuth
 
 api_url = 'https://gateway.watsonplatform.net/tradeoff-analytics/api/v1/dilemmas/'
-api_username = "2e32ed4f-7035-4159-9587-b88cd655f6f3"
-api_password = "PHHGaNxrCLP0"
-proxy = {"http": "http://bproxy.ibmsbsds1.com:3128","https": "http://bproxy.ibmsbsds1.com:3128",}
+api_username = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+api_password = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 
 def get_listof_params(profile):
